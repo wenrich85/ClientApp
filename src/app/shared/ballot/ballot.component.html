@@ -1,0 +1,273 @@
+<form [formGroup]="ballotViewForm">
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <div class="card ">
+        <div class="card-header ">
+          <div class="row justify-content-center"> <img height=50 src="assets/img/logo.png">
+            <h1>EVOTE </h1>
+          </div>
+          <div class="row justify-content-center">
+            <h3>Ballot View</h3>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Precinct Name</label>
+                <input type="text" class="form-control" formControlName="Precinct" required disabled>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Save Button -->
+          <div class="row justify-content-center">
+            <div class="justify-content-center">
+              <button type="submit" class="btn btn-primary btn-round" (click)="Save()">
+                Save</button>
+            </div>
+            <!-- Approval Button -->
+            <div class="justify-content-center">
+              <button type="submit" class="btn btn-primary btn-round" (click)="Approval()">
+                Submit for Approval</button>
+            </div>
+          </div>
+
+
+          <!-- Display the Heading for the Presidents -->
+          <div *ngIf="displayPresidents">
+            <h6>Presidential Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Presidential Canidates -->
+          <div *ngFor="let presidentialCanidate of presidentialCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="presidentialCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Heading for the Federal Senators -->
+          <div *ngIf="displaySenators">
+            <h6>Federal Senator Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Federal Senator Canidates -->
+          <div *ngFor="let senatorialCanidate of senatorialCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="senatorialCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Heading for the Federal House Canidates -->
+          <div *ngIf="displayHouse">
+            <h6>Federal House of Representative Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the House Canidates -->
+          <div *ngFor="let houseCanidate of houseCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="houseCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State Governor Canidates -->
+          <div *ngIf="displayGovernors">
+            <h6>Governor Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Governor Canidates -->
+          <div *ngFor="let governorCanidate of governorCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="governorCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State Senators Canidates -->
+          <div *ngIf="displayStateSenators">
+            <h6>State Senator Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State Senator Canidates -->
+          <div *ngFor="let stateSenatorialCanidate of stateSenatorialCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="stateSenatorialCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State House Canidates -->
+          <div *ngIf="displayStateHouse">
+            <h6>State House of Representative Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State House Canidates -->
+          <div *ngFor="let stateHoueseCanidate of stateHoueseCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="stateHoueseCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the Local Mayor Canidates -->
+          <div *ngIf="displayMayors">
+            <h6>Local Moyoral Canidates</h6>
+            <div class="row">
+              <div class="col-md-3 pr-1">
+                <label>Canidate Name</label>
+              </div>
+              <div class="col-md-3 pr-1">
+                <label>Party</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display the State House Canidates -->
+          <div *ngFor="let mayoralCanidate of mayoralCanidates.controls; let i = index">
+            <div>
+              <div [formGroup]="mayoralCanidate">
+                <div class="row">
+                  <div class="col-md-3 pr-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="candidateName" required disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3 pl-1">
+                    <div class="form-group">
+                      <input type="text" class="form-control" formControlName="party" required disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
