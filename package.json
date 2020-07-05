@@ -1,7 +1,10 @@
 {
   "name": "paper-dashboard-angular",
   "version": "2.1.0",
-  "license": "MIT",
+  "license": "=MIT",
+  "engines": {
+    "node": "12.x"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
