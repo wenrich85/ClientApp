@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { PreRegInfo } from '../../../app/data/preRegInfo';
 import { QuestionResponse } from 'app/data/questionResponse';
 import * as $ from 'jquery';
-import 'bootstrap-notify'
+import 'bootstrap-notify';
 
 @Component({
     selector: 'authorization',

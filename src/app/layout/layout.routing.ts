@@ -5,7 +5,7 @@ import { RegistrationComponent } from '../pages/authorization/registration/regis
 import { QuestionVerification } from '../pages/authorization/questionVerification/questionVerification.component';
 
 import { VoteComponent } from 'app/pages/vote/vote.component';
-import { BallotBuilder } from 'app/pages/ballotBuilder/ballotBuilder.component';
+// import { BallotBuilder } from 'app/pages/ballotBuilder/ballotBuilder.component';
 import { Ballot } from 'app/shared/ballot/ballot.component';
 
 export const LayoutRoutes: Routes = [
@@ -13,6 +13,6 @@ export const LayoutRoutes: Routes = [
   { path: "vote", component: VoteComponent },
   { path: "registration", component: RegistrationComponent },
   { path: "question", component: QuestionVerification },
-  { path: "ballot-builder", component: BallotBuilder },
+  // { path: "ballot-builder", component: BallotBuilder },
   { path: "ballot", component: Ballot }
 ];
