@@ -30,7 +30,6 @@
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "@ngui/map": "0.30.3",
     "@nguniversal/module-map-ngfactory-loader": "^8.2.6",
-    "@types/googlemaps": "3.36.5",
     "arrive": "2.4.1",
     "bootstrap": "4.3.1",
     "bootstrap-notify": "3.1.3",
