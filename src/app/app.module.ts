@@ -22,9 +22,9 @@ import { RegistrationComponent } from "../app/pages/authorization/registration/r
 import { VoteComponent } from "./pages/vote/vote.component";
 import { HttpClientModule } from "@angular/common/http";
 import { QuestionVerification } from "../app/pages/authorization/questionVerification/questionVerification.component";
-import { Ballot } from "./shared/ballot/ballot.component";
+// import { Ballot } from "./shared/ballot/ballot.component";
 
-import { BallotBuilder } from "./pages/ballotBuilder/ballotBuilder.component";
+// import { BallotBuilder } from "./pages/ballotBuilder/ballotBuilder.component";
 
 @NgModule({
   declarations: [
@@ -36,8 +36,8 @@ import { BallotBuilder } from "./pages/ballotBuilder/ballotBuilder.component";
     RegistrationComponent,
     VoteComponent,
     QuestionVerification,
-    BallotBuilder,
-    Ballot
+    // BallotBuilder,
+    // Ballot
   ],
   imports: [
     BrowserAnimationsModule,
