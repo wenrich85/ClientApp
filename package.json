@@ -1,7 +1,7 @@
 {
-  "name": "paper-dashboard-angular",
+  "name": "e-vote-client",
   "version": "2.1.0",
-  "license": "=MIT",
+  "license": "SWENG 894 GROUP 1",
   "engines": {
     "node": "12.x",
     "npm" : "6.x"
