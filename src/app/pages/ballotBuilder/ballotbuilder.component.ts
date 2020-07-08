@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 
 @Component({
     selector: 'ballot-builder',
-    templateUrl: 'ballotBuilder.component.html'
+    templateUrl: './ballotBuilder.component.html'
 })
 
 export class BallotBuilder implements OnInit {
