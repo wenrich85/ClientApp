@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient,  } from '@angular/common/http';
-import { Http } from '@angular/http';
-import { CompleteBallot } from '../data/countyBallot';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { CompleteBallot } from '../models/countyBallot';
+
 
 @Injectable({
     providedIn: 'root'
@@ -10,31 +10,56 @@ import { CompleteBallot } from '../data/countyBallot';
 
 export class BallotService{
     
-    BASE_URL = 'http://localhost:5000/api';
+    BASE_URL = 'https://e-vote-api.azurewebsites.net/api/Ballot/';
 
-    private ballot: CompleteBallot;
+    private ballot :CompleteBallot;
 
     private ballotSubject = new Subject();
 
     ballots = this.ballotSubject.asObservable();
 
-    constructor(private http : Http){
-        this.getBallot()
+    constructor(private http: HttpClient){
     }
 
 
-    getBallot(){
-        this.http.get(this.BASE_URL + '/Ballot/Initiate').subscribe(response => {
-            this.ballot = response.json();
+    async getBallot(electionDate, precinctId, role){
+        let params = new URLSearchParams();
+        params.append('precintID', precinctId );
+        params.append('electionDate', electionDate);
+        let headers = new HttpHeaders();
+
+        let raw = {
+            "electionDate": electionDate,
+            "precintId": precinctId,
+            "role": role,
+       
+        };
+        
+        await this.http.post<CompleteBallot>(this.BASE_URL+'Initiate', raw ).subscribe(response => {
+            this.ballot = response
             this.ballotSubject.next(this.ballot)
+
         })
     }
 
-    publishBallot(ballotSubmission: CompleteBallot){
-        this.http.post(this.BASE_URL+ '/Ballot/Publish', ballotSubmission)
-        .subscribe(response => {
-            this.ballot = response.json();
+
+    async saveBallot(ballot){
+
+        // ballot.isComplete = true
+        await this.http.post<CompleteBallot>(this.BASE_URL+'publish', ballot ).subscribe(response => {
+            this.ballot = response
+            console.log(response)
             this.ballotSubject.next(this.ballot)
-        })
+    })
+}
+
+    async submitBallot(ballot){
+
+        await this.http.post<CompleteBallot>(this.BASE_URL+'publish', ballot ).subscribe(response => {
+            this.ballot = response
+            console.log(response)
+            this.ballotSubject.next(this.ballot)
+
+         })
     }
 }

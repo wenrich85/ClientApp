@@ -1,22 +1,20 @@
 <div class="container">
-  
-   <div class="row mx-auto">
-     <h1>Authorization </h1>
+
+  <div class="row justify-content-center">
+    <h1>Authorization </h1>
   </div>
-    <div class="row justify-content-center">
-      <voter-verification (voterIsRegistered)="mobileVerificationResponse($event)" *ngIf="displayVoterVerification">
-      </voter-verification>
-      <mobile-verification [prereg]="preReg" (mobileVerificationResponse)="mobileVerificationResponse($event)"
-        *ngIf="displayMobileVerification"></mobile-verification>
-      <registration (displayVoterRegistration)="questionRouter($event)" *ngIf="displayRegistration">
-      </registration>
-      <!-- <question-verification [questions]="questions" -->
-        <div #alert class="alert alert-warning alert-dismissible fade row " role="alert">
-          <h5 id='notification'></h5>
-          <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <strong class="notification"></strong>
-        </div>
+  <div class="row justify-content-center">
+    <voter-verification (voterIsRegistered)="voterVerificationResponse($event)" *ngIf="displayVoterVerification">
+    </voter-verification>
+    <mobile-verification [prereg]="preReg" (mobileVerificationResponse)="mobileVerificationResponse($event)"
+      *ngIf="displayMobileVerification"></mobile-verification>
+    <facial-recognition *ngIf="displayFacialRecognition" [preReg]="preReg" (facialRecognitionResponse)="facialRecognitionResponse($event)"></facial-recognition>
+    <div #alert class="alert alert-warning alert-dismissible fade row " role="alert">
+      <h5 id='notification'></h5>
+      <button type="button" class="close" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong class="notification"></strong>
     </div>
   </div>
+</div>

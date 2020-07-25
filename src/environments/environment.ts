@@ -4,5 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  endpoint: 'https://eastus.api.cognitive.microsoft.com/face/v1.0/',
+  detect: 'detect',
+  verify: 'verify',
+  faceSubsciptionKey:'271afa462afd4eda8dc5f75377f1efb8'
 };

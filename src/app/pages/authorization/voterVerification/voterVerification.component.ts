@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core'
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, AbstractControlDirective, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { VoterVerificationService } from 'app/services/voterVerificationService';
-import { PreRegInfo } from 'app/data/preRegInfo';
+import { PreRegInfo } from 'app/models/preRegInfo';
 import * as $ from 'jquery';
 import 'bootstrap-notify'
 
@@ -21,7 +21,7 @@ export class VoterVerification {
         recaptcha: [null, Validators.required]
     });
 
-    preReg: PreRegInfo;
+    preReg
     showRequiredMessage: boolean = false;
 
     siteKey = "6Lc6kwEVAAAAABYqeOkugVG2usNCwFh340PkZGUH"
@@ -30,9 +30,11 @@ export class VoterVerification {
     //https://ntsi.com/drivers-license-format/
     isFieldValid(field: string) {
         return !this.voterVerificationForm.get(field).valid && this.voterVerificationForm.get(field).touched;
+
     }
 
     onSubmit() {
+        this.showRequiredMessage = false;
         console.log(this.voterVerificationForm.value.phoneNumber);
 
         if (!this.voterVerificationForm.valid) {
@@ -40,25 +42,21 @@ export class VoterVerification {
                 const control = this.voterVerificationForm.get(field);
                 control.markAsTouched({ onlySelf: true });
 
-            });
-            $[`notify`]({
-                // options
-                message: 'Oops. Please fill in all fields correctly' 
-            },{
-                // settings
-                type: 'danger'
+                //Display the Input Error Message to the User
+                this.displayInputErrorMessage(control);
             });
 
-            this. showRequiredMessage = true;
+            this.showRequiredMessage = true;
             return;
         }
-        
-        this.preReg= {
-            mobileNo:this.voterVerificationForm.value.phoneNumber,
+
+        this.preReg = {
+            mobileNo: this.voterVerificationForm.value.phoneNumber,
             stateId: this.voterVerificationForm.value.stateId,
             action: 5003,
             status: 0,
-            message:null
+            role: 0,
+            message: null
 
         }
 
@@ -67,11 +65,34 @@ export class VoterVerification {
                 this.voterIsRegistered.emit(pre);
             })
 
-   
+
 
         //Call Service HERE
         //If successful call the voterIsRegistered() parent method like seen below. 
         //If invalid display error message on front end: "Your information was invalid. Please try again."
+
+    }
+    //Display the Input Error Message to the User
+    displayInputErrorMessage(control: AbstractControl) {
+        //Valid Input - No Error Message
+        if (control.valid)
+            return;
+
+        //Input is not Valid, Display Error Message
+        switch (control) {
+            case this.voterVerificationForm.controls.phoneNumber:
+                $[`notify`]({ message: 'Please enter a valid 10-Digit Phone Number' }, { type: 'danger' });
+                break;
+
+            case this.voterVerificationForm.controls.stateId:
+                $[`notify`]({ message: 'Please enter a valid 10-Digit State ID Number' }, { type: 'danger' });
+                break;
+
+            case this.voterVerificationForm.controls.recaptcha:
+                $[`notify`]({ message: 'Please Complete the Recaptcha' }, { type: 'danger' });
+                break;
+
+        }
 
     }
 

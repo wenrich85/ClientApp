@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { PreRegInfo } from '../data/preRegInfo'
+import { PreRegInfo } from '../models/preRegInfo'
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { QuestionDemographics, QuestionResponse } from 'app/data/questionResponse';
+import { QuestionDemographics, QuestionResponse } from 'app/models/questionResponse';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -13,23 +13,34 @@ export class VoterVerificationService {
 
     baseURL = "https://e-vote-api.azurewebsites.net/";
 
+    private preRegistrantStore
+
+    private preRegistrantSubject = new Subject()
+
+    preRegistrant = this.preRegistrantSubject.asObservable()
+
     endpoint = {
         5003: 'api/voter/Status',
         5001: 'api/voter/OtpAuth',
+        5002: 'api/voter/OtpAuth',
         5005: 'api/voter/CreditFile',
+        5006: 'api/voter/Face', //Action_Get_Face_Id
+        5007: 'api/voter/Face', //Action_Save_Face_Id
         6006: 'api/voter/CreditFileAuth'
 
     }
-   
+
 
     private questions = new Subject<QuestionResponse>()
+     
+    prereg
 
     validateQuestions(questions: QuestionResponse): Observable<PreRegInfo> {
 
         return null;
     }
 
-   
+
     getQuestions(): Observable<QuestionResponse> {
         return this.questions.asObservable();
     }
@@ -38,29 +49,34 @@ export class VoterVerificationService {
         this.questions.next(questions);
     }
 
-    getPreRegInfo(voter: PreRegInfo): Observable<PreRegInfo> {
-
-        console.log(voter)
+     getPreRegInfo(voter): Observable<PreRegInfo> {
 
         var myHeaders = new HttpHeaders();
         myHeaders.set("Content-Type", "application/json");
 
-        var raw = { "mobileNo": voter.mobileNo, 
-                    "stateId": voter.stateId, 
-                    "action": voter.action, 
-                    "message": voter.message };
+        var raw = {
+            "mobileNo": voter.mobileNo,
+            "stateId": voter.stateId,
+            "action": voter.action,
+            "message": voter.message
+        };
 
         var requestOptions = {
-            headers: myHeaders };
+            headers: myHeaders
+        };
+        this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)
+            .subscribe( res =>{
+                console.log(res)
+            })
 
         return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)
     }
 
     creditFile(qd: QuestionDemographics): Observable<QuestionResponse> {
-       
+
         var myHeaders = new HttpHeaders();
         myHeaders.set("Content-Type", "application/json");
-        
+
 
         console.log(qd)
 
@@ -77,37 +93,67 @@ export class VoterVerificationService {
     creditFileAuth(qr: QuestionResponse) {
         var myHeaders = new HttpHeaders();
         myHeaders.set("Content-Type", "application/json");
-        var raw =  { "mobileNo": qr.mobileNo, 
-                     "stateId": qr.stateId, 
-                     "questions": [
-                         { 
-                            "qNum": qr.questions[0].qNum, 
-                            "answer": qr.questions[0].answer 
-                        }, 
-                        { 
-                            "qNum": qr.questions[1].qNum, 
-                            "answer": qr.questions[1].answer 
-                        }, 
-                        { 
-                            "qNum": qr.questions[2].qNum, 
-                            "answer": qr.questions[2].answer 
-                        }, 
-                        { 
-                            "qNum": qr.questions[3].qNum, 
-                            "answer": qr.questions[3].answer 
-                        }, 
-                        { 
-                            "qNum": qr.questions[4].qNum, 
-                            "answer": qr.questions[4].answer 
-                        }
-                    ] 
-                };
-    
+        var raw = {
+            "mobileNo": qr.mobileNo,
+            "stateId": qr.stateId,
+            "questions": [
+                {
+                    "qNum": qr.questions[0].qNum,
+                    "answer": qr.questions[0].answer
+                },
+                {
+                    "qNum": qr.questions[1].qNum,
+                    "answer": qr.questions[1].answer
+                },
+                {
+                    "qNum": qr.questions[2].qNum,
+                    "answer": qr.questions[2].answer
+                },
+                {
+                    "qNum": qr.questions[3].qNum,
+                    "answer": qr.questions[3].answer
+                },
+                {
+                    "qNum": qr.questions[4].qNum,
+                    "answer": qr.questions[4].answer
+                }
+            ]
+        };
+
         var requestOptions = {
             headers: myHeaders,
         }
 
-         return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[qr.action], raw, requestOptions)
+        return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[qr.action], raw, requestOptions)
+        .subscribe(ans => {
+            console.log(ans)
+        })
 
+    }
+
+    faceIdAuth(voter: PreRegInfo): Observable<PreRegInfo> {
+        var myHeaders = new HttpHeaders();
+        myHeaders.set("Content-Type", "application/json");
+
+        var raw = {
+            "mobileNo": voter.mobileNo,
+            "stateId": voter.stateId,
+            "action": voter.action,
+            "message": voter.message
+        };
+
+        var requestOptions = {
+            headers: myHeaders
+        };
+
+        this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)
+            .subscribe(res =>
+                {
+                    this.preRegistrantStore = res
+                    this.preRegistrantSubject.next(this.preRegistrantStore)
+                })
+
+        return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)
+        
     }
 }

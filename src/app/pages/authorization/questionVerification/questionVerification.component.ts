@@ -1,9 +1,9 @@
 import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core'
 import { FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { PreRegInfo } from '../../../../app/data/preRegInfo';
+import { PreRegInfo } from '../../../../app/models/preRegInfo';
 import { VoterVerificationService } from '../../../../app/services/voterVerificationService';
-import { QuestionResponse } from 'app/data/questionResponse';
+import { QuestionResponse } from '../../../models/questionResponse';
 
 @Component({
     selector: 'question-verification',

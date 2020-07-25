@@ -1,56 +1,72 @@
-<form [formGroup]="ballotForm" (ngSubmit)="onSubmit()">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card " style="text-align: center">
-                <div class="card-header ">
-                    <h2>Ballot Builder</h2>
-                    <h4>[District Name]</h4>
-                </div>
-                <div class="card-body ">
-                    <div id="card-body" class="">
-                        <!-- Seat Name Row-->
-                        <div class="row justify-content-center">
-                            <div class="col-md-6 pr-1">
-                                <div class="form-group">
-                                    <label>Seat Name</label>
-                                    <input type="text" class="form-control" formControlName="seatName" required>
-                                </div>
-                            </div>
+<div class="container">
+    <div *ngIf="ballot">
+        <form [formGroup]="ballotForm" (ngSubmit)="onSubmit()">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="card " style="text-align: center">
+                        <div class="card-header ">
+                            <h2>Ballot Builder</h2>
+                            <h4>Precint ID :{{ ballot.precintId }}</h4>
                         </div>
-                        <!-- Canidate Name Row-->
-                        <div *ngFor="let candidate of candidates.controls; let i = index">
-                            <div class="row justify-content-center">
-                                <div class="col-md-6 pr-1">
-                                    <div class="form-group" [formGroup]="candidate">
-                                        <label>Canidate Name</label>
-                                        <input type="text" class="form-control" formControlName="name" required>
+                        <div class="card-body ">
+                            <div id="card-body" class="">
+                                <!-- Seat Name Row-->
+                                <div class="row justify-content-center">
+                                    <div class="col-md-6 pr-1">
+                                        <div class="form-group">
+                                            <label>Seat Name</label>
+                                            <input type="text" class="form-control" formControlName="seatName" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- party row-->
-                            <div class="row justify-content-center">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Party</label>
-                                        <input type="text" class="form-control" formControlName="party" required>
+                                <!-- Canidate Name Row-->
+                                <div *ngFor="let candidate of candidates.controls; let i = index">
+                                    <div [formGroup]="candidate">
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Canidate's First Name</label>
+                                                    <input type="text" class="form-control"
+                                                        formControlName="cFirstName" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 pr-1">
+                                                <div class="form-group">
+                                                    <label>Canidate's Last Name</label>
+                                                    <input type="text" class="form-control"
+                                                        formControlName="cLastName" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- party row-->
+                                        <div class="row justify-content-center">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Party</label>
+                                                    <input type="text" class="form-control" formControlName="party"
+                                                        required>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- Button Row -->
+                                    <!-- Button Row -->
 
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="update ml-auto mr-auto">
-                                <button type="submit" class="btn btn-primary btn-round">Add to Ballot</button>
-                                <button type="button" (click)="onAddCandidate()" class="btn btn-primary btn-round">Add
-                                    Candidate</button>
-                                <button type="reset" (click)="onReset()"
-                                    class="btn btn-primary btn-round">Reset</button>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="update ml-auto mr-auto">
+                                        <button type="submit" class="btn btn-primary btn-round">Add to Ballot</button>
+                                        <button type="button" (click)="onAddCandidate()"
+                                            class="btn btn-primary btn-round">Add
+                                            Candidate</button>
+                                        <button type="reset" (click)="onReset()"
+                                            class="btn btn-primary btn-round">Reset</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
-</form>
+</div>
