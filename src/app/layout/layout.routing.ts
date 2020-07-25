@@ -6,7 +6,7 @@ import { QuestionVerification } from '../pages/authorization/questionVerificatio
 import { FacialRecognition } from '../pages/authorization/facialRecognition/facialRecognition.component';
 
 import { VoteComponent } from 'app/pages/vote/vote.component';
-import { BallotBuilder } from '../pages/ballotBuilder/ballotBuilder.component';
+import { BallotBuilder } from '../pages/ballotBuilder/ballotbuilder.component';
 import { BallotCompiler } from '../pages/ballotBuilder/ballotcompiler.component';
 import { BallotApprover } from '../pages/ballotBuilder/ballotapprover.component'
 
