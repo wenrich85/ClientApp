@@ -32,10 +32,10 @@ import { BoolToYesNoPipe } from './pipes/bool-to-yes-no.pipe';
 
 //Ballot Handling
 import { Ballot } from './shared/ballot/ballot.component';
-import { BallotBuilder } from '../app/pages/ballotBuilder/ballotBuilder.component';
-import { BallotCompiler } from '../app/pages/ballotBuilder/ballotcompiler.component';
+import { BallotBuilder } from './pages/ballotBuilder/ballotBuilder.component';
+import { BallotCompiler } from './pages/ballotBuilder/ballotcompiler.component';
 import { VoteComponent } from './pages/vote/vote.component';
-import { BallotApprover } from '../app/pages/ballotBuilder/ballotapprover.component';
+import { BallotApprover } from './pages/ballotBuilder/ballotapprover.component';
 
 @NgModule({
   declarations: [
