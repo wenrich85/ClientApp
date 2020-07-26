@@ -12,51 +12,57 @@ import { VoterVerificationService } from '../../../../app/services/voterVerifica
 export class MobileVerification implements OnInit {
     constructor(private fb: FormBuilder, private vvs: VoterVerificationService) { }
     @Output('mobileVerificationResponse') mobileVerificationResponse: EventEmitter<any> = new EventEmitter();
-    @Input() prereg: PreRegInfo;
+    
+    @Input() prereg;
 
     OTPType = ''
 
-    ngOnInit() {
+  ngOnInit() {
+
+       
         console.log(this.prereg.message)
         if (this.prereg.action === 6001) {
             this.OTPType = 'Mobile OTP'
         } else { this.OTPType = ' Mailed OTP' }
+        
     }
 
     mobileVerificationForm = this.fb.group({
         mobileCode: ['', Validators.required]
     });
 
-    onSubmit() {
+    async onSubmit() {
 
         if (!this.mobileVerificationForm.valid) {
             return;
         }
         this.prereg.message = this.mobileVerificationForm.value.mobileCode
-        this.prereg.action = 5001
-        this.vvs.getPreRegInfo(this.prereg)
-            .subscribe(res =>{
-                this.prereg
-            })
-        console.log(this.prereg.status)
-        switch (this.prereg.status) {
-            case 1001:
-                this.prereg.message = this.mobileVerificationForm.value.mobileCode
-                this.prereg.action = 5001
-                this.vvs.getPreRegInfo(this.prereg)
-                    .subscribe(ans => {
-                        console.log(ans)
-                        this.mobileVerificationResponse.emit(ans);
+
+        if(this.prereg.action === 6001)
+        {
+            this.prereg.action = 5001
+            await this.vvs.getPreRegInfo(this.prereg)
+                .subscribe(res =>
+                    {
+                        if(res.action === 6002){
+                            console.log(res)
+                            this.mobileVerificationResponse.emit()
+                        }
+                        
                     })
-                break;
-            case 1002: //
-                this.prereg.message = this.mobileVerificationForm.value.mobileCode
-                this.prereg.action = 5002
-                this.vvs.getPreRegInfo(this.prereg)
-                    .subscribe(ans => {
-                        this.mobileVerificationResponse.emit(ans);
+            
+            return
+        }else if(this.prereg.action === 6003)
+        {
+            this.prereg.action = 5002
+            await this.vvs.getPreRegInfo(this.prereg)
+                .subscribe(res => 
+                    {
+                            console.log(res);
                     })
+            this.mobileVerificationResponse.emit(this.prereg) 
 
         }
+             
     }
 }

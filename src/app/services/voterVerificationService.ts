@@ -66,7 +66,7 @@ export class VoterVerificationService {
         };
         this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)
             .subscribe( res =>{
-                console.log(res)
+                this.preRegistrantSubject.next(res)
             })
 
         return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[voter.action], raw, requestOptions)

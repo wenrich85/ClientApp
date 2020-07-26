@@ -115,8 +115,13 @@ export class FacialRecognition implements OnInit {
                                 this.preReg.message = this.facialResponse[0].faceId;
                                 this.vvs.getPreRegInfo(this.preReg)
                                     .subscribe(resp => {
-                                        this.preReg.action = 6000;
-                                        this.facialRecognitionResponse.emit(this.preReg);
+                                        if(this.preReg.action === 6000){
+                                            this.facialRecognitionResponse.emit(this.preReg);
+                                            console.log(resp)
+                                        }
+                                        
+
+                                        
                                     });
                             }
                         } else {
@@ -128,6 +133,8 @@ export class FacialRecognition implements OnInit {
             }
         });
     }
+
+
 
     clear() {
         this.canvas.nativeElement.getContext('2d').clearRect(0, 0, this.videoWidth, this.videoHeight);

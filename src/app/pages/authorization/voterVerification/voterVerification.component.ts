@@ -35,8 +35,7 @@ export class VoterVerification {
 
     onSubmit() {
         this.showRequiredMessage = false;
-        console.log(this.voterVerificationForm.value.phoneNumber);
-
+        
         if (!this.voterVerificationForm.valid) {
             Object.keys(this.voterVerificationForm.controls).forEach(field => {
                 const control = this.voterVerificationForm.get(field);
@@ -62,7 +61,10 @@ export class VoterVerification {
 
         this.vvs.getPreRegInfo(this.preReg)
             .subscribe(pre => {
-                this.voterIsRegistered.emit(pre);
+                if(pre){
+                    this.voterIsRegistered.emit(pre);
+                }
+                
             })
 
 
