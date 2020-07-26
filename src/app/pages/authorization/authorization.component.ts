@@ -197,7 +197,7 @@ export class Authorization implements OnInit{
            
             case 6000:
                 if(this.preReg.status === 1001){
-                    this.router.navigate([this.routes.reg])
+                    this.router.navigateByUrl(this.routes.reg, { state: { mobileNo: this.preReg.mobileNo, stateId: this.preReg.stateId } })
                     break;
                 }else if(this.preReg.status === 1003){
                     this.router.navigate([this.routes.vote])

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PreRegInfo } from '../models/preRegInfo'
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { QuestionDemographics, QuestionResponse } from 'app/models/questionResponse';
 import { Router } from '@angular/router';
@@ -38,6 +38,14 @@ export class VoterVerificationService {
     validateQuestions(questions: QuestionResponse): Observable<PreRegInfo> {
 
         return null;
+    }
+
+    preRegGetter(){
+        this.preRegistrant
+            .subscribe(ans =>
+                {
+                    return ans
+                })
     }
 
 

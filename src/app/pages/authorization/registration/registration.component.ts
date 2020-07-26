@@ -37,6 +37,7 @@ export class RegistrationComponent {
             .pipe(map(() => window.history.state))
             .subscribe(res => this.preRegInfo = res)
         console.log(this.mobile = this.preRegInfo["mobileNo"])
+       
 
     }
 
