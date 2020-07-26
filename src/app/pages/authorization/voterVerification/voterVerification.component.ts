@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core'
+import { Component, Output, EventEmitter, OnInit } from '@angular/core'
 import { FormBuilder, AbstractControlDirective, AbstractControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { VoterVerificationService } from 'app/services/voterVerificationService';
@@ -11,9 +11,13 @@ import 'bootstrap-notify'
     templateUrl: './voterVerification.component.html'
 })
 
-export class VoterVerification {
+export class VoterVerification implements OnInit{
     constructor(private fb: FormBuilder, private vvs: VoterVerificationService) { }
     @Output('voterIsRegistered') voterIsRegistered: EventEmitter<PreRegInfo> = new EventEmitter();
+
+    ngOnInit(){
+        this.vvs.getPreRegInfo(this.preReg)
+    }
 
     voterVerificationForm = this.fb.group({
         phoneNumber: ['', Validators.required],

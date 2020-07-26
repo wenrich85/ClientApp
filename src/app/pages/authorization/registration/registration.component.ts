@@ -57,7 +57,7 @@ export class RegistrationComponent {
     }
 
     registrationVerificationForm = this.fb.group({
-        mNumber: [this.getPhone(), Validators.required],
+        mNumber: [this.getPhone(), Validators.required, ],
         idNumber: [this.stateId(), Validators.required],        
         ssn: ['', Validators.required],
         dob: ['', Validators.required],

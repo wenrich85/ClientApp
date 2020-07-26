@@ -27,7 +27,7 @@ export class Authorization implements OnInit{
     
 
     async ngOnInit(){
-        console.log("Made it here")
+       
         await this.vvs.preRegistrant
             .subscribe(res =>{
                 this.preReg = res
@@ -37,16 +37,9 @@ export class Authorization implements OnInit{
             this.displayVoterVerification = true
         }
 
-        
-
-
     }
 
-    // voterIsRegistered(event) {
-    //     this.displayVoterVerification = false;
-    //     this.displayMobileVerification = true;
-    //     return this.preReg = event
-    // }
+
 
     @ViewChild('alert', { static: true }) alert: ElementRef;
 
@@ -77,96 +70,26 @@ export class Authorization implements OnInit{
 
 
     voterVerificationResponse(response: PreRegInfo) {
-
-        this.preReg 
-        this.checkStatusCode()
-        // this.preReg = response;
-        // if(response.action === 6001){
-        //     this.displayVoterVerification = false;
-        //     this.displayMobileVerification = true;
-        //     this.displayFacialRecognition = false;
-        // } else {
-        //     this.errorNotifications('Error please try again.' + response.message);
-        // }
+        if(this.preReg !== 5003)
+        {
+            this.preReg 
+            this.checkStatusCode()
+        }
+        
     }
 
     mobileVerificationResponse() {
-        console.log("Made it")
-        this.checkStatusCode()
-    //     console.log(response)
-
-    //     switch (response.status) {
-    //         case 1000:
-    //             this.router.navigate(['/authorize'])
-    //             this.errorNotifications('Your account is locked please try again after ' + response.message);
-    //             break;
-    //         case 1001:
-    //             this.preReg = response;
-    //             this.displayVoterVerification = false;
-    //             this.displayMobileVerification = false;
-    //             this.displayFacialRecognition = true;
-    //             return 
-    //         case 1002:
-    //             this.router.navigate(["/authorize"]);
-    //             break;
-    //         case 1003:
-    //             this.preReg = response;
-    //             this.displayVoterVerification = false;
-    //             this.displayMobileVerification = false;
-    //             this.displayFacialRecognition = true;
-    //             break;
-    //         case 1004:
-    //             this.router.navigate(['/authorize'])
-    //             this.errorNotifications('Our records indicate that you have already voted.');
-    //             break;
-    //         case 1005:
-    //             this.errorNotifications('Your account was not found');
-
-    //             break;
-    //         case 1006:
-    //             this.router.navigate(['/authorize'])
-    //             this.errorNotifications('Please come in to the office to register');
-    //             break;
-    //         default:
-    //             this.errorNotifications('Your account was not found');
-    //             break;
-    //     }
+        if(this.preReg !== 5001)
+        {      
+            console.log("Made it")
+            this.checkStatusCode()
+        }
     }
 
     facialRecognitionResponse(response) {
         this.checkStatusCode()
     }
-    //     if (response.action === 6000) {
-    //         if (response.status === 1003) {
-    //             switch (response.role) {
-    //                 case 0:
-    //                     this.router.navigate(["/vote"]);
-    //                     break;
-    //                 case 1:
-    //                     this.router.navigate(["/ballot"]);
-    //                     break;
-    //                 case 2:
-    //                     this.router.navigate(["/approve"]);
-    //                     break;
-    //                 default:
-    //                     this.errorNotifications('Your account was not found');
-    //                     this.router.navigate(['/authorize'])
-    //                     break;
-    //             }
-    //         } else {
-
-    //             this.router.navigateByUrl('/registration', { state: { mobileNo: response.mobileNo, stateId: response.stateId } })
-    //         }
-    //     } else {
-    //         this.router.navigate(['/authorize'])
-    //         this.errorNotifications('Facial Recognition Failure. Come in to the office to register.');
-    //     }
-    // }
-
-    // registrationVerificationResponse(response: string) {
-    //     alert('HELLO! ' + response);
-    //     console.log(response)
-    // }
+  
 
    
     checkStatusCode(){
@@ -203,7 +126,12 @@ export class Authorization implements OnInit{
                     this.router.navigate([this.routes.vote])
                     break;
                 }
-                this.title = "I can not determine your status"
+                else if (this.preReg.status === 1002){
+                    this.preReg.action = 6003
+                    this.clearDisplay()
+                    this.displayMobileVerification = true
+                }
+                this.title = "I cannot determine your status"
                 break;
             case 6001:
                 this.clearDisplay()
@@ -213,6 +141,21 @@ export class Authorization implements OnInit{
                 this.clearDisplay()
                 this.displayFacialRecognition = true
                 break;
+            case 9001:
+                console.log('Got to 9K')
+                // this.clearDisplay()
+                // if(this.preReg.message )
+                if (typeof(this.preReg.message) === "string")
+                {
+                    this.errorNotifications('OTP was incorrect you have used '+this.preReg.message+' of 3 attempts')
+                // if (this.displayMobileVerification !== true){
+                    this.displayMobileVerification = true
+                    break;
+                }
+                this.errorNotifications('Your account is locked until '+this.preReg.message.toString())                
+                break;
+           
+                
 
         }
         

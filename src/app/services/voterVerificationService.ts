@@ -57,7 +57,7 @@ export class VoterVerificationService {
         this.questions.next(questions);
     }
 
-     getPreRegInfo(voter): Observable<PreRegInfo> {
+    getPreRegInfo(voter): Observable<PreRegInfo> {
 
         var myHeaders = new HttpHeaders();
         myHeaders.set("Content-Type", "application/json");
@@ -133,9 +133,7 @@ export class VoterVerificationService {
         }
 
         return this.http.post<PreRegInfo>(this.baseURL + this.endpoint[qr.action], raw, requestOptions)
-        .subscribe(ans => {
-            console.log(ans)
-        })
+       
 
     }
 

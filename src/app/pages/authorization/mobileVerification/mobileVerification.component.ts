@@ -19,9 +19,10 @@ export class MobileVerification implements OnInit {
 
   ngOnInit() {
 
-       
+
+
         console.log(this.prereg.message)
-        if (this.prereg.action === 6001) {
+        if (this.prereg.action === 6001||this.prereg.action === 9001) {
             this.OTPType = 'Mobile OTP'
         } else { this.OTPType = ' Mailed OTP' }
         
@@ -37,16 +38,20 @@ export class MobileVerification implements OnInit {
             return;
         }
         this.prereg.message = this.mobileVerificationForm.value.mobileCode
+        this.mobileVerificationForm.reset()
 
-        if(this.prereg.action === 6001)
+        if(this.prereg.action === 6001||this.prereg.action === 9001)
         {
             this.prereg.action = 5001
             await this.vvs.getPreRegInfo(this.prereg)
                 .subscribe(res =>
                     {
-                        if(res.action === 6002){
+                        console.log(res)
+                        if(res.action ===6002 || res.action === 9001){
+                            this.prereg = res
                             console.log(res)
                             this.mobileVerificationResponse.emit()
+                            return
                         }
                         
                     })

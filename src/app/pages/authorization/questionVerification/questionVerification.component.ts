@@ -12,8 +12,7 @@ import { QuestionResponse } from '../../../models/questionResponse';
 
 export class QuestionVerification implements OnInit {
     constructor(private fb: FormBuilder, private vvs: VoterVerificationService) {
-        this.vvs.getQuestions()
-            .subscribe(res => this.questions = res)
+        
     }
 
     @Output('questionVerificationResponse') questionVerificationResponse: EventEmitter<any> = new EventEmitter();
@@ -33,10 +32,12 @@ export class QuestionVerification implements OnInit {
     });
 
     ngOnInit() {
+        this.vvs.getQuestions()
+            .subscribe(res => this.questions = res)
         
     }
 
-    onSubmit() {
+    async onSubmit() {
         if (!this.creditFileQuestionsForm.valid) {
             this.showRequiredMessage = true;
             return;
@@ -48,14 +49,26 @@ export class QuestionVerification implements OnInit {
         this.questions.questions[3].answer = parseInt(this.creditFileQuestionsForm.value.question4);
         this.questions.questions[4].answer = parseInt(this.creditFileQuestionsForm.value.question5);
 
-        this.vvs.creditFileAuth(this.questions)
+        await this.vvs.creditFileAuth(this.questions)
+            .subscribe(ans =>
+                {
+                    if(ans.action === 6007){
+                        this.showRequiredMessage = false;
+                        this.showForm = false;
+                        this.showNextSteps = true;
+                        this.nextStepMessage = `Your credit files questions have
+                        been submitted and are correct. Please wait for One Time 
+                        Code to be mailed to your home address with next steps`;
+                        return
+                    }
+                    this.nextStepMessage = `Unfortunately we couldn't verify your
+                    identity with the responses that you provide. Please come see
+                    us in person to register.`
+                    return
+
+            })
         
-        this.showRequiredMessage = false;
-        this.showForm = false;
-        this.showNextSteps = true;
-        this.nextStepMessage = `Your credit files questions have
-         been submitted and are correct. Please wait for One Time 
-         Code to be mailed to your home address with next steps`;
+        
     }
 
 
