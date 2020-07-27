@@ -69,19 +69,22 @@ export class Authorization implements OnInit{
 
 
 
-    voterVerificationResponse(response: PreRegInfo) {
-        if(this.preReg !== 5003)
-        {
-            this.preReg 
+    voterVerificationResponse(res) {
+        if(res.action !== 5003)
+        {   
+            this.preReg = res
             this.checkStatusCode()
         }
         
     }
 
-    mobileVerificationResponse() {
-        if(this.preReg !== 5001)
+    mobileVerificationResponse(res) {
+        console.log('res: '+res.action)
+        console.log('preReg: '+this.preReg.action)
+        if(res.action !== 5001)
         {      
-            console.log("Made it")
+            this.preReg = res
+            console.log("test: " + this.preReg.action)
             this.checkStatusCode()
         }
     }
@@ -142,17 +145,10 @@ export class Authorization implements OnInit{
                 this.displayFacialRecognition = true
                 break;
             case 9001:
-                console.log('Got to 9K')
-                // this.clearDisplay()
-                // if(this.preReg.message )
-                if (typeof(this.preReg.message) === "string")
-                {
-                    this.errorNotifications('OTP was incorrect you have used '+this.preReg.message+' of 3 attempts')
-                // if (this.displayMobileVerification !== true){
-                    this.displayMobileVerification = true
-                    break;
-                }
-                this.errorNotifications('Your account is locked until '+this.preReg.message.toString())                
+                this.otpErrorResponse()
+                break;
+            case 9003:
+                this.otpErrorResponse()
                 break;
            
                 
@@ -165,5 +161,17 @@ export class Authorization implements OnInit{
         this.displayVoterVerification = false
         this.displayMobileVerification = false
         this.displayFacialRecognition = false
+    }
+
+    otpErrorResponse(){
+                     
+        if (typeof(this.preReg.message) === "string")
+        {
+            this.errorNotifications('OTP was incorrect you have used '+this.preReg.message+' of 3 attempts')
+            this.displayMobileVerification = true
+            return
+        }
+        this.errorNotifications('Your account is locked until '+this.preReg.message.toString()) 
+
     }
 }

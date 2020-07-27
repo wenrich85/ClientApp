@@ -61,6 +61,9 @@ export class QuestionVerification implements OnInit {
                         Code to be mailed to your home address with next steps`;
                         return
                     }
+                    this.showRequiredMessage = false;
+                    this.showForm = false;
+                    this.showNextSteps = true;
                     this.nextStepMessage = `Unfortunately we couldn't verify your
                     identity with the responses that you provide. Please come see
                     us in person to register.`

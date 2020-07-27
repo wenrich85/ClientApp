@@ -25,7 +25,15 @@ export class VoterVerification implements OnInit{
         recaptcha: [null, Validators.required]
     });
 
-    preReg
+    preReg={
+        mobileNo: '1111111111',
+        stateId: '1111112252',
+        action: 5003,
+        status: 0,
+        role: 0,
+        message: null
+
+    }
     showRequiredMessage: boolean = false;
 
     siteKey = "6Lc6kwEVAAAAABYqeOkugVG2usNCwFh340PkZGUH"

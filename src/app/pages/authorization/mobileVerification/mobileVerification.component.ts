@@ -43,6 +43,7 @@ export class MobileVerification implements OnInit {
         if(this.prereg.action === 6001||this.prereg.action === 9001)
         {
             this.prereg.action = 5001
+            console.log(this.prereg)
             await this.vvs.getPreRegInfo(this.prereg)
                 .subscribe(res =>
                     {
@@ -50,7 +51,7 @@ export class MobileVerification implements OnInit {
                         if(res.action ===6002 || res.action === 9001){
                             this.prereg = res
                             console.log(res)
-                            this.mobileVerificationResponse.emit()
+                            this.mobileVerificationResponse.emit(res)
                             return
                         }
                         
